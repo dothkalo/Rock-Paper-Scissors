@@ -1,74 +1,61 @@
+const ButtonR = document.querySelector('#ButtonR');
+const ButtonP = document.querySelector('#ButtonP');
+const ButtonS = document.querySelector('#ButtonS');
+const log = document.querySelector('#log');
+const scoreBoard = document.querySelector('#scoreBoard');
 
-function playGame() {
-    
-    let humanScore = 0;
-    let computerScore = 0;
+let humanScore = 0;
+let computerScore = 0;
 
+// Event listeners
+ButtonP.addEventListener('click', () => playRound("paper", getComputerChoice()));
+ButtonR.addEventListener('click', () => playRound("rock", getComputerChoice()));
+ButtonS.addEventListener('click', () => playRound("scissors", getComputerChoice()));
 
-    function getComputerChoice() {
-        let mates = Math.floor(Math.random() * 3);
-        let result = "none";
-
-        if (mates == 0) {
-            result = "rock";
-        }
-        else if (mates == 1) {
-            result = "paper";
-        }
-        else if (mates == 2) {
-            result = "scissors";
-        }
-
-        return result;
-    }
-
-
-    function playRound(humanChoice, computerChoice) {
-        if (humanChoice === computerChoice) {
-            log.innerText = `Tie! You both chose ${humanChoice}`;
-        } else if (
-            (humanChoice === "rock" && computerChoice === "scissors") ||
-            (humanChoice === "paper" && computerChoice === "rock") ||
-            (humanChoice === "scissors" && computerChoice === "paper")
-        ) {
-            log.innerText = `You won! ${humanChoice} beats ${computerChoice}`;
-            humanScore++;
-        } else {
-            log.innerText = `The computer won! ${computerChoice} beats ${humanChoice}`;
-            computerScore++;
-        }
-    }
-
-    for (let round = 1; round <= 5; round++) {
-            let player;
-            player = (prompt("Rock Paper Scissors?"));
-
-
-            while (player === null || player.trim() === "") {
-                player = (prompt("Please...Rock Paper Scissors?"));
-            }
-
-
-            player = player.toLowerCase();
-            const humanSelection = player;
-            const computerSelection = getComputerChoice();
-
-            console.log(`Player: ${humanSelection}`);
-            console.log(`Computer: ${computerSelection}`);
-
-            playRound(humanSelection, computerSelection);
-            console.log(`${humanScore} - ${computerScore}`);
-
-        }
-    
-
-    if (humanScore > computerScore) {
-        console.log(`🏆 You won the game! Final score: ${humanScore} - ${computerScore}`);
-    } else if (computerScore > humanScore) {
-        console.log(`💻 Computer won the game! Final score: ${humanScore} - ${computerScore}`);
-    } else {
-        console.log(`🤝 It's a tie! Final score: ${humanScore} - ${computerScore}`);
-    }
+function getComputerChoice() {
+    const choices = ["rock", "paper", "scissors"];
+    return choices[Math.floor(Math.random() * choices.length)];
 }
 
-playGame();
+function playRound(humanChoice, computerChoice) {
+    let resultMessage = '';
+    
+    if (humanChoice === computerChoice) {
+        resultMessage = `Tie! You both chose ${humanChoice}`;
+    } else if (
+        (humanChoice === "rock" && computerChoice === "scissors") ||
+        (humanChoice === "paper" && computerChoice === "rock") ||
+        (humanChoice === "scissors" && computerChoice === "paper")
+    ) {
+        resultMessage = `You won! ${humanChoice} beats ${computerChoice}`;
+        humanScore++;
+    } else {
+        resultMessage = `The computer won! ${computerChoice} beats ${humanChoice}`;
+        computerScore++;
+    }
+
+    // Update log
+    log.innerText = resultMessage;
+    log.classList.add('update');
+    setTimeout(() => log.classList.remove('update'), 400);
+
+    // Update score
+    scoreBoard.innerText = `Player: ${humanScore} - Computer: ${computerScore}`;
+
+    // Check for winner
+    if (humanScore >= 5) announceWinner("You");
+    if (computerScore >= 5) announceWinner("Computer");
+}
+
+// Winner announcement
+function announceWinner(winner) {
+    log.innerText = `${winner} won the game! 🎉`;
+    log.classList.add('winner');
+    humanScore = 0;
+    computerScore = 0;
+    setTimeout(() => {
+        log.classList.remove('winner');
+        scoreBoard.innerText = `Player: ${humanScore} - Computer: ${computerScore}`;
+        log.innerText = "Make your move!";
+    }, 3000);
+}
