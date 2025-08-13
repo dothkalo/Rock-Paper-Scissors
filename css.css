@@ -1,0 +1,96 @@
+/* Base page style */
+body {
+    font-family:'Courier New', Courier, monospace;
+    background: linear-gradient(160deg, #ffecd2, #fcb69f);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 50px 20px;
+    overflow-x: hidden;
+}
+
+h1 {
+    color: #ff6f91;
+    font-size: 3rem;
+    text-shadow: 3px 3px #ffd6e0;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Buttons container */
+#buttons {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+/* Buttons style */
+button {
+    padding: 20px 40px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+/* Fun pastel gradients for each button */
+#ButtonR { background: linear-gradient(135deg, #ff8c94, #ffaaa5); }
+#ButtonP { background: linear-gradient(135deg, #caffbf, #9bf6ff); color: #333; }
+#ButtonS { background: linear-gradient(135deg, #ffd6a5, #fdffb6); color: #333; }
+
+button:hover {
+    transform: scale(1.2) rotate(-5deg);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+}
+
+/* Scoreboard & log style */
+#scoreBoard, #log {
+    background: #fff9f0;
+    padding: 20px 30px;
+    margin: 15px 0;
+    border-radius: 30px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+    text-align: center;
+    font-size: 1.5rem;
+    width: 350px;
+    transition: transform 0.3s, color 0.3s;
+}
+
+/* Bounce animation when log updates */
+#log.update {
+    animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+    0% { transform: translateY(-10px); }
+    50% { transform: translateY(10px); }
+    100% { transform: translateY(0); }
+}
+
+/* Winner style */
+.winner {
+    color: #ff6f91;
+    text-shadow: 0 0 15px #ff9fbc, 0 0 30px #ffb6c1;
+}
+
+/* Floating confetti elements */
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, #ff6f91, #ffd6a5);
+    border-radius: 50%;
+    animation: fall 3s linear forwards;
+    pointer-events: none;
+}
+
+@keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(600px) rotate(360deg); opacity: 0; }
+}
